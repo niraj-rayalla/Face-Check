@@ -25,5 +25,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.squareup.picasso:picasso:2.5.0'
     compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'commons-io:commons-io:2.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

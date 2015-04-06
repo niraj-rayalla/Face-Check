@@ -1,0 +1,6 @@
+{
+    "server_ssl_enabled": true,
+    "server_name": "api.pvp.net",
+    "server_region": "na",
+    "api_key": ""
+}
