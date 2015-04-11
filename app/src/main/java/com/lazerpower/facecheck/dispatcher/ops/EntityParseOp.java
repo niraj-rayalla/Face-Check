@@ -29,7 +29,7 @@ public class EntityParseOp implements DbOp {
 
     @Override
     public Object run(SQLiteDatabase db, Object arg) throws JSONException {
-        Object result = mEntity.parse(arg, mMerge);
+        Object result = mEntity.parse(db, arg, mMerge);
 
         if (result != null) {
             if(mMerge != null && (result instanceof ContentValues)) {

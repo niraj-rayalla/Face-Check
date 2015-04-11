@@ -17,4 +17,10 @@ public class ApiPaths {
                 App.getInstance().getFeatures().getServerRegion(),
                 matchId);
     }
+
+    public static String getStaticDataPath(String staticDataType) {
+        return String.format("api/lol/static-data/%s/v1.2/%s",
+                App.getInstance().getFeatures().getServerRegion(),
+                staticDataType);
+    }
 }

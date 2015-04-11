@@ -1,6 +1,7 @@
 package com.lazerpower.facecheck.dispatcher.entity;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.lazerpower.facecheck.Log;
 
@@ -20,9 +21,9 @@ public abstract class Entity {
         public void reset();
     }
 
-    public abstract ContentValues parse(JSONObject json, MergePolicy merge) throws JSONException;
+    public abstract ContentValues parse(SQLiteDatabase db, JSONObject json, MergePolicy merge) throws JSONException;
 
-    public List<ContentValues> parse(JSONArray jsonArray, MergePolicy merge) throws JSONException {
+    public List<ContentValues> parse(SQLiteDatabase db, JSONArray jsonArray, MergePolicy merge) throws JSONException {
         ArrayList<ContentValues> result = new ArrayList<ContentValues>();
         for (int i = 0; i < jsonArray.length(); ++i) {
             Object object = jsonArray.get(i);
@@ -31,7 +32,7 @@ public abstract class Entity {
                     if(merge != null) {
                         merge.reset();
                     }
-                    ContentValues values = parse((JSONObject) object, merge);
+                    ContentValues values = parse(db, (JSONObject) object, merge);
                     if(merge != null) {
                         merge.set(values);
                         result.add(merge.getResult());
@@ -49,10 +50,10 @@ public abstract class Entity {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T parse(Object json, MergePolicy merge) throws JSONException {
+    public <T> T parse(SQLiteDatabase db, Object json, MergePolicy merge) throws JSONException {
         if(json instanceof JSONObject) {
             try {
-                ContentValues result = parse((JSONObject) json, merge);
+                ContentValues result = parse(db, (JSONObject) json, merge);
 
                 if (result == null || result.size() == 0) {
                     //Try to check for error
@@ -76,7 +77,7 @@ public abstract class Entity {
             }
         } else if(json instanceof JSONArray) {
             try {
-                return (T)parse((JSONArray)json, merge);
+                return (T)parse(db, (JSONArray)json, merge);
             }
             catch (Exception e) {
                 Log.e("Entity array parse error", e);
