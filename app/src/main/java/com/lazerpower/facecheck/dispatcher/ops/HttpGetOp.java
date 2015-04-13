@@ -14,10 +14,6 @@ public class HttpGetOp extends HttpRestOp {
     public HttpGetOp(String path, Collection<Param> params) {
         super(path, params);
     }
-    public HttpGetOp(String path, Collection<Param> params, boolean useBookshoutUri,
-                     boolean useHttps, String serverName) {
-        super(path, params, useBookshoutUri, useHttps, serverName);
-    }
 
     @Override
     public Request.Builder createRequest(Object arg, String uri) {
