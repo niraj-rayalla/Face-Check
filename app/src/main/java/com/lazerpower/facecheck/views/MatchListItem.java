@@ -1,4 +1,4 @@
-package com.lazerpower.facecheck.activities;
+package com.lazerpower.facecheck.views;
 
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
@@ -14,13 +14,11 @@ import android.widget.RelativeLayout;
 
 import com.lazerpower.facecheck.R;
 
-public class Match_Item extends RelativeLayout {
+public class MatchListItem extends RelativeLayout {
 
-    private RecyclerView match_List;
+    private RecyclerView mMatchList;
 
-
-
-    public Match_Item(Context context, AttributeSet attrs) {
+    public MatchListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 }
