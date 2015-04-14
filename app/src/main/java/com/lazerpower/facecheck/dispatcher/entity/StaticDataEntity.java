@@ -54,6 +54,10 @@ public abstract class StaticDataEntity extends Entity {
 
     protected abstract Entity getEntity();
 
+    protected String getImagePathType() {
+        return getType();
+    }
+
     protected String getPreferenceName() {
         return "pref_"+getType()+"_version";
     }
@@ -63,7 +67,7 @@ public abstract class StaticDataEntity extends Entity {
     }
 
     public String getImageServerPathPrefix() {
-        return String.format("http://ddragon.leagueoflegends.com/cdn/%s/img/%s/", getTypeVersion(), getType());
+        return String.format("http://ddragon.leagueoflegends.com/cdn/%s/img/%s/", getTypeVersion(), getImagePathType());
     }
 
     public boolean hasStaticDataStored() {

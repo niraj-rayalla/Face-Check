@@ -17,4 +17,6 @@ public class MapTimelineView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
     }
+
+
 }

@@ -30,10 +30,20 @@ public class InitialDatabasePatch implements Patch {
                     "DESCRIPTION VARCHAR NOT NULL," +   //Item description
                     "IMAGE VARCHAR NOT NULL);";         //Item image json object
 
+    private static final String CREATE_SUMMONER_SPELLS_TABLE =
+            "CREATE TABLE SUMMONER (" +
+                    "ID VARCHAR PRIMARY KEY," +         //Summoner spell id
+                    "NAME VARCHAR NOT NULL," +          //Summoner spell name
+                    "DESCRIPTION VARCHAR NOT NULL," +   //Summoner spell description
+                    "SUMMONER_LEVEL INTEGER NOT NULL," +    //Summoner spell - summoner level
+                    "KEY VARCHAR NOT NULL," +           //Summoner spell key
+                    "IMAGE VARCHAR NOT NULL);";         //Summoner spell image json object
+
     private static final String CREATE_TABLE_SQL_STRINGS[] = {
             CREATE_MATCH_TABLE,
             CREATE_CHAMPIONS_TABLE,
-            CREATE_ITEMS_TABLE
+            CREATE_ITEMS_TABLE,
+            CREATE_SUMMONER_SPELLS_TABLE
     };
 
     @Override
