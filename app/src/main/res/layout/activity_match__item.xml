@@ -1,0 +1,170 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="130dp"
+    tools:context="com.lazerpower.facecheck.activities.Match_Item">
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="130dp"
+        android:orientation="vertical"
+        android:id="@+id/image_layout">
+        <ImageView
+            android:id="@+id/mvp_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
+
+        <TextView
+            android:id="@+id/game_time"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="45:71"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <!-- Blue Team Stats-->
+
+    <LinearLayout
+        android:id="@+id/blue_layout"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/image_layout"
+        android:background="@color/blue_team_color">
+        <LinearLayout
+            android:id="@+id/blue_stat1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/blue_kda"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="100/1/100"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/blue_gold"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="10000g"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/blue_tower"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Tower:1"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/blue_dragon"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Dragon:1"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/blue_barron"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Barron:1"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/blue_win"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- Red Team Stats-->
+
+    <LinearLayout
+        android:id="@+id/red_layout"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/blue_layout"
+        android:layout_toRightOf="@id/image_layout"
+        android:background="@color/red_team_color">
+        <LinearLayout
+            android:id="@+id/red_stat1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/red_kda"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="100/1/100"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/red_gold"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="10000g"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/red_tower"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Tower:1"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/red_dragon"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Dragon:1"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/red_barron"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Barron:1"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/red_win"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</RelativeLayout>
