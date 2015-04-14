@@ -3,6 +3,7 @@ package com.lazerpower.facecheck.api;
 import com.lazerpower.facecheck.App;
 import com.lazerpower.facecheck.dispatcher.entity.Champions;
 import com.lazerpower.facecheck.dispatcher.entity.Items;
+import com.lazerpower.facecheck.dispatcher.entity.Maps;
 import com.lazerpower.facecheck.dispatcher.entity.SummonerSpells;
 import com.lazerpower.facecheck.dispatcher.ops.DispatchResultOp;
 import com.lazerpower.facecheck.dispatcher.ops.EmptyOpCallback;
@@ -12,6 +13,7 @@ import com.lazerpower.facecheck.dispatcher.ops.OpCallback;
 import com.lazerpower.facecheck.http.Param;
 import com.lazerpower.facecheck.ops.GetChampion;
 import com.lazerpower.facecheck.ops.GetItem;
+import com.lazerpower.facecheck.ops.GetMap;
 import com.lazerpower.facecheck.ops.GetSummonerSpell;
 
 /**
@@ -125,7 +127,7 @@ public class ApiHelper {
                 super.onOperationResultChanged(result);
 
                 if (result == null) {
-                    //Fetch the latest entire items list
+                    //Fetch the latest entire summoner spells list
                     getAllSummonerSpells(new EmptyOpCallback() {
                         @Override
                         public void onOperationFinished(Exception exception) {
@@ -153,6 +155,52 @@ public class ApiHelper {
         App.getInstance().getDispatcher().dispatch(
                 twoStepCallback,
                 new GetSummonerSpell(summonerSpellId),
+                new DispatchResultOp()
+        );
+    }
+
+    /**
+     * Gets a map according to its id in the sql database.
+     * If a map doesn't exist with that id, then it's likely it's a new map that
+     * does not exist and so the entire map list along with the version is fetched.
+     * After the server fetch, the local database fetch is retried.
+     * @param callback
+     */
+    public static void getMap(final String mapId, final OpCallback callback) {
+        OpCallback twoStepCallback = new EmptyOpCallback() {
+            @Override
+            public void onOperationResultChanged(Object result) {
+                super.onOperationResultChanged(result);
+
+                if (result == null) {
+                    //Fetch the latest entire maps list
+                    getAllSummonerSpells(new EmptyOpCallback() {
+                        @Override
+                        public void onOperationFinished(Exception exception) {
+                            super.onOperationFinished(exception);
+
+                            //Get from local database
+                            App.getInstance().getDispatcher().dispatch(
+                                    callback,
+                                    new GetMap(mapId),
+                                    new DispatchResultOp()
+                            );
+                        }
+                    });
+                }
+                else {
+                    //Tell the callback
+                    if (callback != null) {
+                        callback.onOperationResultChanged(result);
+                    }
+                }
+            }
+        };
+
+        //Get from local database
+        App.getInstance().getDispatcher().dispatch(
+                twoStepCallback,
+                new GetMap(mapId),
                 new DispatchResultOp()
         );
     }
@@ -201,6 +249,21 @@ public class ApiHelper {
                 callback,
                 new HttpGetOp(summonerSpellsEntity.getApiPath(), Param.withKeysAndValues("spellData", "image")),
                 new EntityParseOp(summonerSpellsEntity),
+                new DispatchResultOp()
+        );
+    }
+
+    /**
+     * Gets the entire list of maps from the server
+     * Gets the maps data with image data
+     * @param callback
+     */
+    public static void getAllMaps(OpCallback callback) {
+        Maps mapsEntity = new Maps();
+        App.getInstance().getDispatcher().dispatch(
+                callback,
+                new HttpGetOp(mapsEntity.getApiPath()),
+                new EntityParseOp(mapsEntity),
                 new DispatchResultOp()
         );
     }

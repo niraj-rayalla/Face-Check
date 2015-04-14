@@ -17,9 +17,9 @@ public class InitialDatabasePatch implements Patch {
     private static final String CREATE_CHAMPIONS_TABLE =
             "CREATE TABLE CHAMPION (" +
                     "ID VARCHAR PRIMARY KEY," +         //Champion id
-                    "KEY VARCHAR  NOT NULL," +          //Champion key
+                    "KEY VARCHAR," +                    //Champion key
                     "NAME VARCHAR  NOT NULL," +         //Champion name
-                    "TITLE VARCHAR  NOT NULL," +        //Champion title
+                    "TITLE VARCHAR," +                  //Champion title
                     "IMAGE VARCHAR NOT NULL);";         //Champion image json object
 
     private static final String CREATE_ITEMS_TABLE =
@@ -39,11 +39,18 @@ public class InitialDatabasePatch implements Patch {
                     "KEY VARCHAR NOT NULL," +           //Summoner spell key
                     "IMAGE VARCHAR NOT NULL);";         //Summoner spell image json object
 
+    private static final String CREATE_MAPS_TABLE =
+            "CREATE TABLE MAP (" +
+                    "ID VARCHAR PRIMARY KEY," +         //Map id
+                    "NAME VARCHAR NOT NULL," +          //Map name
+                    "IMAGE VARCHAR NOT NULL);";         //Map image json object
+
     private static final String CREATE_TABLE_SQL_STRINGS[] = {
             CREATE_MATCH_TABLE,
             CREATE_CHAMPIONS_TABLE,
             CREATE_ITEMS_TABLE,
-            CREATE_SUMMONER_SPELLS_TABLE
+            CREATE_SUMMONER_SPELLS_TABLE,
+            CREATE_MAPS_TABLE
     };
 
     @Override

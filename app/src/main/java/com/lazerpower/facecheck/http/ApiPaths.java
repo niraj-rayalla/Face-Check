@@ -18,9 +18,10 @@ public class ApiPaths {
                 matchId);
     }
 
-    public static String getStaticDataPath(String staticDataType) {
-        return String.format("api/lol/static-data/%s/v1.2/%s",
+    public static String getStaticDataPath(String staticApiVersion, String staticDataType) {
+        return String.format("api/lol/static-data/%s/%s/%s",
                 App.getInstance().getFeatures().getServerRegion(),
+                staticApiVersion,
                 staticDataType);
     }
 }

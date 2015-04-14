@@ -23,7 +23,7 @@ public class GetChampion implements DbOp {
     public Champion.ChampionModel run(SQLiteDatabase db, Object arg) throws JSONException {
         Champion.ChampionModel champion = null;
 
-        Cursor c = db.query("champions",
+        Cursor c = db.query("champion",
                 new String[]{"id", "key", "name", "title", "image"},
                 "id=?", new String[]{mChampionId},
                 null, null,

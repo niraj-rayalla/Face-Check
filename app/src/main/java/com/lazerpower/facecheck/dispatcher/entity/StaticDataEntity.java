@@ -63,7 +63,7 @@ public abstract class StaticDataEntity extends Entity {
     }
 
     public String getApiPath() {
-        return ApiPaths.getStaticDataPath(getType());
+        return ApiPaths.getStaticDataPath(API_VERSION, getType());
     }
 
     public String getImageServerPathPrefix() {

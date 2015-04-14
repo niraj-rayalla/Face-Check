@@ -12,44 +12,35 @@ import org.json.JSONObject;
 /**
  * Created by Niraj on 4/13/2015.
  */
-public class SummonerSpell extends Entity {
+public class Map extends Entity {
     @Override
     public ContentValues parse(SQLiteDatabase db, JSONObject json, MergePolicy merge) throws JSONException {
         ContentValues contentValues = new ContentValues();
         new Parser(json, contentValues)
-                .parseString("id")
-                .parseString("name")
-                .parseString("description")
-                .parseInt("summonerLevel", "summoner_level")
-                .parseString("key")
+                .parseString("mapId", "id")
+                .parseString("mapName", "name")
                 .parseJsonObjectAsString("image");
 
         long rowId = DatabaseUtils.upsert(
-                db, "summoner", contentValues,
+                db, "map", contentValues,
                 "id", contentValues.getAsString("id"));
 
         return contentValues;
     }
 
-    public static class SummonerSpellModel extends ImageRelatedModel {
+    public static class MapModel extends ImageRelatedModel {
         private String mId;
         private String mName;
-        private String mDescription;
-        private int mSummonerLevel;
-        private String mKey;
 
-        public SummonerSpellModel(String id, String name, String description, int summonerLevel, String key, String imageJsonString) {
+        public MapModel(String id, String name, String imageJsonString) {
             super(imageJsonString);
             mId = id;
             mName = name;
-            mDescription = description;
-            mSummonerLevel = summonerLevel;
-            mKey = key;
         }
 
         @Override
         protected String getImageLocationServerPathPrefix() {
-            return new SummonerSpells().getImageServerPathPrefix();
+            return new Maps().getImageServerPathPrefix();
         }
 
         public String getId() {
@@ -58,18 +49,6 @@ public class SummonerSpell extends Entity {
 
         public String getName() {
             return mName;
-        }
-
-        public String getDescription() {
-            return mDescription;
-        }
-
-        public int getSummonerLevel() {
-            return mSummonerLevel;
-        }
-
-        public String getKey() {
-            return mKey;
         }
     }
 }

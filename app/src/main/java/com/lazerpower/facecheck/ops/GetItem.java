@@ -23,7 +23,7 @@ public class GetItem implements DbOp {
     public Item.ItemModel run(SQLiteDatabase db, Object arg) throws JSONException {
         Item.ItemModel item = null;
 
-        Cursor c = db.query("items",
+        Cursor c = db.query("item",
                 new String[]{"id", "name", "item_group", "description", "image"},
                 "id=?", new String[]{mItemId},
                 null, null,

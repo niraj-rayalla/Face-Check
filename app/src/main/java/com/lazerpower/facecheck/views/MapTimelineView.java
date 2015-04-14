@@ -5,10 +5,15 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.lazerpower.facecheck.dispatcher.entity.Match;
+
 /**
  * Created by Niraj on 4/11/2015.
  */
 public class MapTimelineView extends View {
+
+    private Match.MatchModel mMatch;
+
     public MapTimelineView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -18,5 +23,9 @@ public class MapTimelineView extends View {
         super.onDraw(canvas);
     }
 
+    public void setMatch(Match.MatchModel match) {
+        mMatch = match;
 
+        
+    }
 }

@@ -7,6 +7,7 @@ import com.lazerpower.facecheck.R;
 import com.lazerpower.facecheck.api.ApiHelper;
 import com.lazerpower.facecheck.dispatcher.entity.Champions;
 import com.lazerpower.facecheck.dispatcher.entity.Items;
+import com.lazerpower.facecheck.dispatcher.entity.Maps;
 import com.lazerpower.facecheck.dispatcher.entity.SummonerSpells;
 import com.lazerpower.facecheck.dispatcher.ops.EmptyOpCallback;
 
@@ -23,10 +24,12 @@ public class MainActivity extends Activity {
         boolean hasChampionsData = (new Champions()).hasStaticDataStored();
         boolean hasItemsData = (new Items()).hasStaticDataStored();
         boolean hasSummonerSpellsData = (new SummonerSpells()).hasStaticDataStored();
+        boolean hasMapsData = (new Maps()).hasStaticDataStored();
         final int numStaticDataToFetch =
                 (hasChampionsData ? 0 : 1)
                 + (hasItemsData ? 0 : 1)
-                + (hasSummonerSpellsData ? 0 : 1);
+                + (hasSummonerSpellsData ? 0 : 1)
+                + (hasMapsData ? 0 : 1);
 
         if (numStaticDataToFetch > 0) {
             EmptyOpCallback fetchAllNeededStaticDataCallback = new EmptyOpCallback() {
@@ -52,6 +55,9 @@ public class MainActivity extends Activity {
             }
             if (!hasSummonerSpellsData) {
                 ApiHelper.getAllSummonerSpells(fetchAllNeededStaticDataCallback);
+            }
+            if (!hasMapsData) {
+                ApiHelper.getAllMaps(fetchAllNeededStaticDataCallback);
             }
         }
         else {
