@@ -34,7 +34,7 @@ public class TimeUtils {
             }
             //Subtract 5 minutes to get the last full
             //five minute mark
-            calendar.add(Calendar.DAY_OF_MONTH, -7);
+            calendar.add(Calendar.DAY_OF_MONTH, -9);
             calendar.add(Calendar.MINUTE, -5);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
