@@ -25,6 +25,7 @@ public class App extends Application {
     private Features mFeatures;
     private DatabaseFactory mDatabaseFactory;
     private Dispatcher mDispatcher;
+    private Reachability mReachability;
 
     @Override
     public void onCreate() {
@@ -35,6 +36,7 @@ public class App extends Application {
         mFeatures = createFeatures();
         mDatabaseFactory = new DatabaseFactory(this);
         mDispatcher = new Dispatcher(new DatabaseFactory(this));
+        mReachability = new Reachability(this);
     }
 
     @Override
@@ -44,6 +46,8 @@ public class App extends Application {
         mFeatures = null;
         mDatabaseFactory = null;
         mDispatcher = null;
+        mReachability.close();
+        mReachability = null;
 
         mInstance = null;
     }
@@ -73,5 +77,9 @@ public class App extends Application {
 
     public Dispatcher getDispatcher() {
         return mDispatcher;
+    }
+
+    public Reachability getReachability() {
+        return mReachability;
     }
 }

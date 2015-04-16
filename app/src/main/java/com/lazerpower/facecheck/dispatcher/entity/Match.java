@@ -25,7 +25,7 @@ public class Match extends Entity {
     public ContentValues parse(SQLiteDatabase db, JSONObject json, MergePolicy merge) throws JSONException {
         ContentValues contentValues = new ContentValues();
         new Parser(json, contentValues)
-                .parseString("matchId")
+                .parseString("matchId", "id")
                 .parseLong("matchCreation")
                 .parseInt("matchDuration");
 
@@ -33,7 +33,7 @@ public class Match extends Entity {
 
         long rowId = DatabaseUtils.upsert(
                 db, "match", contentValues,
-                "matchId", contentValues.getAsString("matchId"));
+                "id", contentValues.getAsString("id"));
 
         return contentValues;
     }
@@ -43,6 +43,7 @@ public class Match extends Entity {
 
         private Date mCreationTime;
         private int mMatchDurationInSeconds;
+        private String mMapId;
         private Team[] mTeams;
         private Participant[] mParticipants;
         private Timeline mTimeline;
@@ -53,6 +54,7 @@ public class Match extends Entity {
             try {
                 mCreationTime = new Date(json.getLong("matchCreation"));
                 mMatchDurationInSeconds = json.getInt("matchDuration");
+                mMapId = json.getString("mapId");
 
                 //Teams
                 JSONArray teamsJsonArray = json.getJSONArray("teams");
@@ -82,6 +84,10 @@ public class Match extends Entity {
 
         public int getMatchDurationInSeconds() {
             return mMatchDurationInSeconds;
+        }
+
+        public String getMapId() {
+            return mMapId;
         }
 
         public Team[] getTeams() {
@@ -152,7 +158,7 @@ public class Match extends Entity {
 
             public Team(JSONObject teamJsonObject) throws JSONException {
                 mTeamId = teamJsonObject.getInt("teamId");
-                mWinner = teamJsonObject.getBoolean("teamId");
+                mWinner = teamJsonObject.getBoolean("winner");
                 mFirstBlood = teamJsonObject.getBoolean("firstBlood");
                 mFirstTower = teamJsonObject.getBoolean("firstTower");
                 mFirstInhibitor = teamJsonObject.getBoolean("firstInhibitor");
@@ -185,16 +191,16 @@ public class Match extends Entity {
 
         public static class Participant {
             public final int mTeamId;
-            public final int mSpell1Id;
-            public final int mSpell2Id;
-            public final int mChampionId;
+            public final String mSpell1Id;
+            public final String mSpell2Id;
+            public final String mChampionId;
             public final String mHighestAchievedSeasonTier;
 
             public Participant(JSONObject jsonObject) throws JSONException {
                 mTeamId = jsonObject.getInt("teamId");
-                mSpell1Id = jsonObject.getInt("spell1Id");
-                mSpell2Id = jsonObject.getInt("spell2Id");
-                mChampionId = jsonObject.getInt("championId");
+                mSpell1Id = jsonObject.getString("spell1Id");
+                mSpell2Id = jsonObject.getString("spell2Id");
+                mChampionId = jsonObject.getString("championId");
                 mHighestAchievedSeasonTier = jsonObject.getString("highestAchievedSeasonTier");
 
 

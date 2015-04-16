@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/player_details_section"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <Space
+            android:id="@+id/focused_player_placeholder"
+            android:layout_width="@dimen/focused_player_image"
+            android:layout_height="@dimen/focused_player_image"
+            android:layout_margin="@dimen/small_spacing"/>
+
+        <RelativeLayout
+            android:id="@+id/player_basic_details"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/focused_player_image"
+            android:layout_alignTop="@id/focused_player_placeholder"
+            android:layout_toRightOf="@id/focused_player_placeholder"
+            android:layout_marginRight="@dimen/small_spacing">
+
+            <TextView
+                android:id="@+id/champion_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/normal_text_size"/>
+
+            <ImageView
+                android:id="@+id/summoner_spell_1"
+                android:layout_width="@dimen/half_focused_player_image"
+                android:layout_height="@dimen/half_focused_player_image"
+                android:layout_marginRight="@dimen/very_small_spacing"
+                android:layout_alignParentBottom="true"/>
+
+            <ImageView
+                android:id="@+id/summoner_spell_2"
+                android:layout_width="@dimen/half_focused_player_image"
+                android:layout_height="@dimen/half_focused_player_image"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/summoner_spell_1"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/player_main_details"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/focused_player_image"
+            android:layout_marginRight="@dimen/small_spacing"
+            android:layout_alignTop="@id/focused_player_placeholder"
+            android:layout_toRightOf="@id/player_basic_details"
+            android:paddingTop="@dimen/very_small_spacing"
+            android:paddingBottom="@dimen/very_small_spacing">
+
+            <TextView
+                android:id="@+id/player_kda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:textSize="@dimen/medium_text_size"
+                android:text="99/99/99"/>
+
+            <TextView
+                android:id="@+id/player_total_gold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:textSize="@dimen/medium_text_size"
+                android:text="99999"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/focused_player_image"
+            android:layout_marginRight="@dimen/small_spacing"
+            android:layout_alignTop="@id/focused_player_placeholder"
+            android:layout_toRightOf="@id/player_main_details"
+            android:paddingTop="@dimen/very_small_spacing"
+            android:paddingBottom="@dimen/very_small_spacing">
+
+            <TextView
+                android:id="@+id/jungle_creep_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/very_small_spacing"
+                android:layout_alignParentTop="true"
+                android:textStyle="bold"
+                android:textSize="@dimen/medium_text_size"
+                android:text="Jg Creep:"/>
+
+            <TextView
+                android:id="@+id/jungle_creep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/jungle_creep_label"
+                android:textSize="@dimen/medium_text_size"
+                android:text="999"/>
+
+            <TextView
+                android:id="@+id/total_creep_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/very_small_spacing"
+                android:layout_alignParentBottom="true"
+                android:textStyle="bold"
+                android:textSize="@dimen/medium_text_size"
+                android:text="Total Creep:"/>
+
+            <TextView
+                android:id="@+id/total_creep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/total_creep_label"
+                android:textSize="@dimen/medium_text_size"
+                android:text="999"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/item_image_views"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/focused_player_placeholder"
+            android:layout_centerHorizontal="true"
+            android:gravity="center">
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/player_image_views"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+    </LinearLayout>
+
+</merge>
