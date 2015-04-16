@@ -60,6 +60,6 @@ public class MatchListItem extends RelativeLayout {
         mRedBarron = (TextView)findViewById(R.id.red_barron);
         mRedWin = (ImageView)findViewById(R.id.red_win);
 
-        
+
     }
 }

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * Created by Niraj on 4/6/2015.
+ * Created by Niraj & Lazer on 4/6/2015.
  */
 public class Match extends Entity {
     @Override
@@ -95,6 +95,10 @@ public class Match extends Entity {
             return mTimeline;
         }
 
+        public Participant getMVP() {
+            return mParticipants[1];
+        }
+
 
         //
         //Sub-models
@@ -163,7 +167,55 @@ public class Match extends Entity {
                 mSpell2Id = jsonObject.getInt("spell2Id");
                 mChampionId = jsonObject.getInt("championId");
                 mHighestAchievedSeasonTier = jsonObject.getString("highestAchievedSeasonTier");
+
+
             }
+        }
+
+        public static class ParticipantStats {
+            public final boolean mWinner;
+            public final int mKills;
+            public final int mKillSpree;
+            public final int mDeaths;
+            public final int mAssists;
+            public final int mTotalDamChamp;
+            public final int mTotalHeal;
+            public final int mTank;
+            public final int mMinionKill;
+            public final int mJungleKill;
+            public final int mGoldEarn;
+            public final int mGoldSpent;
+            public final int mWardPlaced;
+            public final int mWardKilled;
+            public final int mCC;
+            public final float mKDA;
+
+            public ParticipantStats(JSONObject jsonObject) throws JSONException {
+                mWinner = jsonObject.getBoolean("winner");
+                mKills = jsonObject.getInt("kills");
+                mKillSpree = jsonObject.getInt("largestKillingSpree");
+                mDeaths = jsonObject.getInt("deaths");
+                mAssists = jsonObject.getInt("assists");
+                mTotalDamChamp = jsonObject.getInt("totalDamageDealtToChampions");
+                mTotalHeal = jsonObject.getInt("totalHeal");
+                mTank = jsonObject.getInt("totalDamageTaken");
+                mMinionKill = jsonObject.getInt("minionsKilled");
+                mJungleKill = jsonObject.getInt("neutralMinionsKilled");
+                mGoldEarn = jsonObject.getInt("goldEarn");
+                mGoldSpent = jsonObject.getInt("goldSpent");
+                mWardPlaced = jsonObject.getInt("wardsPlaced");
+                mWardKilled = jsonObject.getInt("wardsKilled");
+                mCC = jsonObject.getInt("totalTimeCrowdControlDealt");
+
+                if(mDeaths == 0){
+                    mKDA = 100;
+                }
+                else {
+                    mKDA = (mKills + mAssists)/mDeaths;
+                }
+
+            }
+
         }
 
         public static class Timeline {
