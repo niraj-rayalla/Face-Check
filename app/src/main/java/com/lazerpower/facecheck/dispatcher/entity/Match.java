@@ -352,7 +352,7 @@ public class Match extends Entity {
                 mChampionId = jsonObject.getString("championId");
                 mHighestAchievedSeasonTier = jsonObject.getString("highestAchievedSeasonTier");
 
-                mStats = new ParticipantStats(jsonObject);
+                mStats = new ParticipantStats(jsonObject.getJSONObject("stats"));
             }
         }
 
@@ -385,7 +385,7 @@ public class Match extends Entity {
                 mTank = jsonObject.getInt("totalDamageTaken");
                 mMinionKill = jsonObject.getInt("minionsKilled");
                 mJungleKill = jsonObject.getInt("neutralMinionsKilled");
-                mGoldEarn = jsonObject.getInt("goldEarn");
+                mGoldEarn = jsonObject.getInt("goldEarned");
                 mGoldSpent = jsonObject.getInt("goldSpent");
                 mWardPlaced = jsonObject.getInt("wardsPlaced");
                 mWardKilled = jsonObject.getInt("wardsKilled");

@@ -2,15 +2,9 @@ package com.lazerpower.facecheck.views;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,8 +15,6 @@ import com.lazerpower.facecheck.dispatcher.entity.Champion;
 import com.lazerpower.facecheck.dispatcher.entity.Match;
 import com.lazerpower.facecheck.dispatcher.ops.EmptyOpCallback;
 import com.lazerpower.facecheck.utils.PicassoOkHttp;
-
-import org.w3c.dom.Text;
 
 public class MatchListItem extends RelativeLayout {
 
@@ -48,6 +40,7 @@ public class MatchListItem extends RelativeLayout {
 
     public MatchListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
+        LayoutInflater.from(context).inflate(R.layout.view_match_item, this, true);
 
         mMVP = (ImageView)findViewById(R.id.mvp_image);
         mTime = (TextView)findViewById(R.id.game_time);
@@ -65,9 +58,6 @@ public class MatchListItem extends RelativeLayout {
         mRedDragon = (TextView)findViewById(R.id.red_dragon);
         mRedBarron = (TextView)findViewById(R.id.red_barron);
         mRedWin = (ImageView)findViewById(R.id.red_win);
-
-
-
     }
 
     public void setMatch(Match.MatchModel game){

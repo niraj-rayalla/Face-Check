@@ -79,7 +79,8 @@ public class MatchDetailsActivity extends Activity {
                                             mRedTeamLiveView.setParticipants(redParticipants);
                                         }
                                     },
-                                    new HttpGetOp(ApiPaths.getMatchPath(matchId)),
+                                    new HttpGetOp(ApiPaths.getMatchPath(matchId),
+                                            Param.withKeysAndValues("includeTimeline", "true")),
                                     new EntityParseOp(new Match()),
                                     new GetMatch(matchId),
                                     new DispatchResultOp()
