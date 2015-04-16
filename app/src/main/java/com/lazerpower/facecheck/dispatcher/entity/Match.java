@@ -2,6 +2,7 @@ package com.lazerpower.facecheck.dispatcher.entity;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Pair;
 
 import com.lazerpower.facecheck.Log;
 import com.lazerpower.facecheck.db.DatabaseUtils;
@@ -95,10 +96,38 @@ public class Match extends Entity {
             return mTimeline;
         }
 
-        public Participant getMVP() {
+        public Participant getMVP(int team)
+        {
+            int[] mvpScore = {0,0,0,0,0};
+
+         //   PriorityQueue<Ranking> rankings = new;
+
+        //    for (int i ) {
+        //        rankins.add(new Ranking(part[i].id, part[i].kills));
+          //  }
+           // rankins.get(0).first;
+
+           // rankins.clear;
+
+
+
+
+
             return mParticipants[1];
         }
 
+        public class Ranking extends Pair<Integer, Integer> implements Comparable<Ranking> {
+
+            public Ranking(int id,int score){
+                super(id, score);
+            }
+
+            @Override
+            public int compareTo(Ranking another) {
+
+                return 0;
+            }
+        }
 
         //
         //Sub-models
