@@ -105,7 +105,26 @@ public class Match extends Entity {
             return mTimeline;
         }
 
-        public Participant getMVP(int team)
+        public Participant getMVP(){
+
+            Team[] teams = getTeams();
+            Team Winner = null;
+
+            for(Team team : teams){
+                if(team.mWinner)
+                {
+                    Winner = team;
+                    break;
+                }
+            }
+
+            Participant MVP = getTeamMVP(Winner.mTeamId);
+
+            return MVP;
+        }
+
+
+        public Participant getTeamMVP(int team)
         {
             HashMap<Integer,Integer> mvpScore = new HashMap<>();
             Participant[] players = new Participant[5];

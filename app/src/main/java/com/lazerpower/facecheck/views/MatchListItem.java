@@ -1,6 +1,7 @@
 package com.lazerpower.facecheck.views;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lazerpower.facecheck.R;
+import com.lazerpower.facecheck.api.ApiHelper;
+import com.lazerpower.facecheck.dispatcher.entity.Champion;
+import com.lazerpower.facecheck.dispatcher.entity.Match;
+import com.lazerpower.facecheck.dispatcher.ops.EmptyOpCallback;
+import com.lazerpower.facecheck.utils.PicassoOkHttp;
 
 import org.w3c.dom.Text;
 
@@ -60,6 +66,23 @@ public class MatchListItem extends RelativeLayout {
         mRedBarron = (TextView)findViewById(R.id.red_barron);
         mRedWin = (ImageView)findViewById(R.id.red_win);
 
+
+
+    }
+
+    public void setMatch(Match.MatchModel game){
+
+        ApiHelper.getChampion(game.getMVP().mChampionId, new EmptyOpCallback() {
+            @Override
+            public void onOperationResultChanged(Object result) {
+                super.onOperationResultChanged(result);
+
+                Champion.ChampionModel championModel = (Champion.ChampionModel) result;
+
+                PicassoOkHttp.getRequest(getContext(), Uri.parse(championModel.getImageUrl()))
+                        .into(mMVP);
+            }
+        });
 
     }
 }
