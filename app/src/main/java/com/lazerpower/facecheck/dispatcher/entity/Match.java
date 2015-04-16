@@ -3,6 +3,7 @@ package com.lazerpower.facecheck.dispatcher.entity;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Pair;
+import android.widget.SeekBar;
 
 import com.lazerpower.facecheck.Log;
 import com.lazerpower.facecheck.db.DatabaseUtils;
@@ -16,6 +17,8 @@ import org.json.JSONObject;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 /**
  * Created by Niraj & Lazer on 4/6/2015.
@@ -104,34 +107,158 @@ public class Match extends Entity {
 
         public Participant getMVP(int team)
         {
-            int[] mvpScore = {0,0,0,0,0};
+            HashMap<Integer,Integer> mvpScore = new HashMap<>();
+            Participant[] players = new Participant[5];
+            int placement = 0;
 
-         //   PriorityQueue<Ranking> rankings = new;
+            //Find players on certain team
+            for(int i=0; i < 10; i++)
+            {
+                if(mParticipants[i].mTeamId == team)
+                {
+                    players[placement] = mParticipants[i];
+                    mvpScore.put(mParticipants[i].mParticipantId,0);
+                    placement++;
+                }
+            }
 
-        //    for (int i ) {
-        //        rankins.add(new Ranking(part[i].id, part[i].kills));
-          //  }
-           // rankins.get(0).first;
-
-           // rankins.clear;
 
 
+            PriorityQueue<Ranking> rankings = new PriorityQueue<>();
 
 
+            // MVP KDA ranking
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mKDA));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{5,3,1});
+            rankings.clear();
 
-            return mParticipants[1];
+            //MVP KILLS
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mKills));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{5,3,1});
+            rankings.clear();
+
+            //MVP Death
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mDeaths));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{-3,-2,-1});
+            rankings.clear();
+
+            //MVP Assist
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mAssists));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{5,3,1});
+            rankings.clear();
+
+            //Total Damaged to Champ
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mTotalDamChamp));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{3,2,1});
+            rankings.clear();
+
+            //Total Damaged taken
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mTank));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{3,1});
+            rankings.clear();
+
+            //MinionKills
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mMinionKill));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{1});
+            rankings.clear();
+
+            //Heal
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mTotalHeal));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{3,1});
+            rankings.clear();
+
+            //CC
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mCC));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{1});
+            rankings.clear();
+
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mWardPlaced));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{3,1});
+            rankings.clear();
+
+            //Ward Kill
+            for (int i = 0; i < 5; i++ ) {
+                rankings.add(new Ranking(players[i].mParticipantId, players[i].mStats.mWardKilled));
+            }
+            addMVPScore(mvpScore, rankings, new int[]{1});
+            rankings.clear();
+
+            Set<Integer> keys = mvpScore.keySet();
+            Participant MVP = null;
+            Integer mvpId = null;
+            for (int key : keys )
+            {
+                if(mvpId==null) {
+                    mvpId = key;
+                }
+                else if(mvpScore.get(key)>mvpScore.get(mvpId))
+                {
+                    mvpId = key;
+                }
+            }
+
+            for (int i = 0; i < players.length; i++){
+                if (players[i].mParticipantId == mvpId){
+                    MVP = players[i];
+                }
+
+            }
+
+            return MVP;
         }
 
-        public class Ranking extends Pair<Integer, Integer> implements Comparable<Ranking> {
+        public void addMVPScore(HashMap<Integer,Integer> mvpScores, PriorityQueue<Ranking> ranks,
+                           int[] points){
 
-            public Ranking(int id,int score){
+            int i = 0;
+            Ranking currentRanking = ranks.poll();
+            while(currentRanking != null && i<points.length) {
+                mvpScores.put(currentRanking.first,
+                        mvpScores.get(currentRanking.first) + points[i]);
+                currentRanking = ranks.poll();
+                i++;
+            }
+        }
+
+        public class Ranking extends Pair<Integer, Float> implements Comparable<Ranking> {
+
+            public Ranking(int id,float score){
                 super(id, score);
             }
 
             @Override
             public int compareTo(Ranking another) {
 
-                return 0;
+                if(this.second < another.second)
+                {
+                    return 1;
+                }
+                else if(this.second > another.second)
+                {
+                    return 0;
+                }
+                else
+                    return -1;
             }
         }
 
@@ -191,19 +318,22 @@ public class Match extends Entity {
 
         public static class Participant {
             public final int mTeamId;
+            public final int mParticipantId;
             public final String mSpell1Id;
             public final String mSpell2Id;
             public final String mChampionId;
             public final String mHighestAchievedSeasonTier;
+            public final ParticipantStats mStats;
 
             public Participant(JSONObject jsonObject) throws JSONException {
                 mTeamId = jsonObject.getInt("teamId");
+                mParticipantId = jsonObject.getInt("participantId");
                 mSpell1Id = jsonObject.getString("spell1Id");
                 mSpell2Id = jsonObject.getString("spell2Id");
                 mChampionId = jsonObject.getString("championId");
                 mHighestAchievedSeasonTier = jsonObject.getString("highestAchievedSeasonTier");
 
-
+                mStats = new ParticipantStats(jsonObject);
             }
         }
 
