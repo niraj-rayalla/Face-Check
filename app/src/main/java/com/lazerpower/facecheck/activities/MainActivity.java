@@ -1,6 +1,7 @@
 package com.lazerpower.facecheck.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.lazerpower.facecheck.R;
@@ -64,32 +65,7 @@ public class MainActivity extends Activity {
             doAfterStaticDataCheck();
         }
 
-        /*
-        App.getInstance().getDispatcher().dispatch(
-                new OpCallback() {
-                    @Override
-                    public void onOperationStarted() {
-
-                    }
-
-                    @Override
-                    public void onOperationResultChanged(Object result) {
-                        Log.d("");
-                        Log.d(result.toString());
-                    }
-
-                    @Override
-                    public void onOperationFinished(Exception exception) {
-
-                    }
-                },
-                new HttpGetOp(ApiPaths.getApiChallengePath(),
-                              Param.withKeysAndValues("beginDate", Long.toString(TimeUtils.getLastFullFiveMinEpoch()))),
-                new EntityParseOp(new Match()),
-                new GetMatches(),
-                new DispatchResultOp()
-        );
-        */
+        startActivity(new Intent(this, MatchDetailsActivity.class));
     }
 
     private void doAfterStaticDataCheck() {

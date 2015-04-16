@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/standard_back">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.lazerpower.facecheck.views.LiveTeamView
+            android:id="@+id/blue_team_live_view"
+            android:layout_width="match_parent"
+            android:layout_height="118dp"
+            android:background="@color/blue_team_color"/>
+
+        <com.lazerpower.facecheck.views.MapTimelineView
+            android:id="@+id/map_timeline_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.lazerpower.facecheck.views.LiveTeamView
+            android:id="@+id/red_team_live_view"
+            android:layout_width="match_parent"
+            android:layout_height="118dp"
+            android:background="@color/red_team_color" />
+
+    </LinearLayout>
+
+</ScrollView>
