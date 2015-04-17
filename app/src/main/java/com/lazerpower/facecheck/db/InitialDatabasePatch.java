@@ -26,8 +26,9 @@ public class InitialDatabasePatch implements Patch {
             "CREATE TABLE ITEM (" +
                     "ID VARCHAR PRIMARY KEY," +         //Item id
                     "NAME VARCHAR NOT NULL," +          //Item name
-                    "ITEM_GROUP VARCHAR NOT NULL," +    //Item group name
+                    "ITEM_GROUP VARCHAR," +    //Item group name
                     "DESCRIPTION VARCHAR NOT NULL," +   //Item description
+                    "STACKS INTEGER NOT NULL," +        //Item stacks
                     "IMAGE VARCHAR NOT NULL);";         //Item image json object
 
     private static final String CREATE_SUMMONER_SPELLS_TABLE =

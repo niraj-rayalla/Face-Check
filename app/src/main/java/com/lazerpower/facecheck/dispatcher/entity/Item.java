@@ -23,6 +23,13 @@ public class Item extends Entity {
                 .parseString("description")
                 .parseJsonObjectAsString("image");
 
+        if (json.has("stacks") && !json.isNull("stacks")) {
+            contentValues.put("stacks", json.getInt("stacks"));
+        }
+        else {
+            contentValues.put("stacks", 0);
+        }
+
         long rowId = DatabaseUtils.upsert(
                 db, "item", contentValues,
                 "id", contentValues.getAsString("id"));
@@ -35,13 +42,15 @@ public class Item extends Entity {
         private String mName;
         private String mGroup;
         private String mDescription;
+        private int mStacks;
 
-        public ItemModel(String id, String name, String group, String description, String imageJsonString) {
+        public ItemModel(String id, String name, String group, String description, int stacks, String imageJsonString) {
             super(imageJsonString);
             mId = id;
             mName = name;
             mGroup = group;
             mDescription = description;
+            mStacks = stacks;
         }
 
         @Override
@@ -63,6 +72,10 @@ public class Item extends Entity {
 
         public String getDescription() {
             return mDescription;
+        }
+
+        public int getStacks() {
+            return mStacks;
         }
     }
 }

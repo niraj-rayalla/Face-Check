@@ -420,6 +420,7 @@ public class Match extends Entity {
         public static class TimelineFrame {
             public final int mTimestamp;
             public final HashMap<Integer, ParticipantFrame> mParticipantFrames;
+            public final ParticipantFrame[] mParticipantFramesArray;
             public final Event[] mEvents;
 
             public TimelineFrame(JSONObject timelineFrameJsonObject) throws JSONException {
@@ -427,17 +428,27 @@ public class Match extends Entity {
 
                 JSONObject participantFramesJsonObject = timelineFrameJsonObject.getJSONObject("participantFrames");
                 Iterator<String> participantFramesIterator = participantFramesJsonObject.keys();
+                mParticipantFramesArray = new ParticipantFrame[participantFramesJsonObject.length()];
                 mParticipantFrames = new HashMap<>();
+                int j = 0;
                 while (participantFramesIterator.hasNext()){
                     String participantFrameKey = participantFramesIterator.next();
                     ParticipantFrame participantFrame = new ParticipantFrame(participantFramesJsonObject.getJSONObject(participantFrameKey));
                     mParticipantFrames.put(participantFrame.mId, participantFrame);
+
+                    mParticipantFramesArray[j] = participantFrame;
+                    ++j;
                 }
 
-                JSONArray eventsJsonArray = timelineFrameJsonObject.getJSONArray("events");
-                mEvents = new Event[eventsJsonArray.length()];
-                for (int i = 0; i < eventsJsonArray.length(); ++i) {
-                    mEvents[i] = Event.getEvent(eventsJsonArray.getJSONObject(i));
+                if (timelineFrameJsonObject.has("events")) {
+                    JSONArray eventsJsonArray = timelineFrameJsonObject.getJSONArray("events");
+                    mEvents = new Event[eventsJsonArray.length()];
+                    for (int i = 0; i < eventsJsonArray.length(); ++i) {
+                        mEvents[i] = Event.getEvent(eventsJsonArray.getJSONObject(i));
+                    }
+                }
+                else {
+                    mEvents = null;
                 }
             }
         }
@@ -456,7 +467,12 @@ public class Match extends Entity {
 
             public ParticipantFrame(JSONObject participantFrameJsonObject) throws JSONException {
                 mId = participantFrameJsonObject.getInt("participantId");
-                mPosition = new Position(participantFrameJsonObject.getJSONObject("position"));
+                if (participantFrameJsonObject.has("position")) {
+                    mPosition = new Position(participantFrameJsonObject.getJSONObject("position"));
+                }
+                else {
+                    mPosition = null;
+                }
                 mCurrentGold = participantFrameJsonObject.getInt("currentGold");
                 mTotalGold = participantFrameJsonObject.getInt("totalGold");
                 mLevel = participantFrameJsonObject.getInt("level");
@@ -469,13 +485,13 @@ public class Match extends Entity {
         }
 
         public abstract static class Event {
-            private static final String EVENT_TYPE_CHAMPION_KILL = "CHAMPION_KILL";
-            private static final String EVENT_TYPE_BUILDING_KILL = "BUILDING_KILL";
-            private static final String EVENT_TYPE_ELITE_MONSTER_KILL = "ELITE_MONSTER_KILL";
-            private static final String EVENT_TYPE_ITEM_PURCHASED = "ITEM_PURCHASED";
-            private static final String EVENT_TYPE_ITEM_DESTROYED = "ITEM_DESTROYED";
-            private static final String EVENT_TYPE_ITEM_SOLD = "ITEM_SOLD";
-            private static final String EVENT_TYPE_ITEM_UNDO = "ITEM_UNDO";
+            public static final String EVENT_TYPE_CHAMPION_KILL = "CHAMPION_KILL";
+            public static final String EVENT_TYPE_BUILDING_KILL = "BUILDING_KILL";
+            public static final String EVENT_TYPE_ELITE_MONSTER_KILL = "ELITE_MONSTER_KILL";
+            public static final String EVENT_TYPE_ITEM_PURCHASED = "ITEM_PURCHASED";
+            public static final String EVENT_TYPE_ITEM_DESTROYED = "ITEM_DESTROYED";
+            public static final String EVENT_TYPE_ITEM_SOLD = "ITEM_SOLD";
+            public static final String EVENT_TYPE_ITEM_UNDO = "ITEM_UNDO";
 
             public final String mEventType;
             public final int mTimestamp;
@@ -486,21 +502,22 @@ public class Match extends Entity {
             }
 
             public static Event getEvent(JSONObject eventJsonObject) throws JSONException {
-                if (eventJsonObject.equals(EVENT_TYPE_CHAMPION_KILL)) {
+                String eventType = eventJsonObject.getString("eventType");
+                if (eventType.equals(EVENT_TYPE_CHAMPION_KILL)) {
                     return new ChampionKillEvent(eventJsonObject);
                 }
-                else if (eventJsonObject.equals(EVENT_TYPE_BUILDING_KILL)) {
+                else if (eventType.equals(EVENT_TYPE_BUILDING_KILL)) {
                     return new BuildingKillEvent(eventJsonObject);
                 }
-                else if (eventJsonObject.equals(EVENT_TYPE_ELITE_MONSTER_KILL)) {
+                else if (eventType.equals(EVENT_TYPE_ELITE_MONSTER_KILL)) {
                     return new EliteMonsterKillEvent(eventJsonObject);
                 }
-                else if (eventJsonObject.equals(EVENT_TYPE_ITEM_PURCHASED)
-                         || eventJsonObject.equals(EVENT_TYPE_ITEM_DESTROYED)
-                         || eventJsonObject.equals(EVENT_TYPE_ITEM_SOLD)) {
+                else if (eventType.equals(EVENT_TYPE_ITEM_PURCHASED)
+                         || eventType.equals(EVENT_TYPE_ITEM_DESTROYED)
+                         || eventType.equals(EVENT_TYPE_ITEM_SOLD)) {
                     return new ItemEvent(eventJsonObject);
                 }
-                else if (eventJsonObject.equals(EVENT_TYPE_ITEM_UNDO)) {
+                else if (eventType.equals(EVENT_TYPE_ITEM_UNDO)) {
                     return new ItemUndoEvent(eventJsonObject);
                 }
 

@@ -14,7 +14,10 @@ import com.lazerpower.facecheck.http.Param;
 import com.lazerpower.facecheck.ops.GetChampion;
 import com.lazerpower.facecheck.ops.GetItem;
 import com.lazerpower.facecheck.ops.GetMap;
+import com.lazerpower.facecheck.ops.GetSelectedItems;
 import com.lazerpower.facecheck.ops.GetSummonerSpell;
+
+import java.util.Collection;
 
 /**
  * Created by Niraj on 4/10/2015.
@@ -109,6 +112,49 @@ public class ApiHelper {
         App.getInstance().getDispatcher().dispatch(
                 twoStepCallback,
                 new GetItem(itemId),
+                new DispatchResultOp()
+        );
+    }
+
+    /**
+     * Same as getItem except that multiple item ids can be queried at one time
+     * @param callback
+     */
+    public static void getSelectedItems(final Collection<String> itemIds, final OpCallback callback) {
+        OpCallback twoStepCallback = new EmptyOpCallback() {
+            @Override
+            public void onOperationResultChanged(Object result) {
+                super.onOperationResultChanged(result);
+
+                if (result instanceof Collection<?> && ((Collection<?>)result).size() > 0) {
+                    //Tell the callback
+                    if (callback != null) {
+                        callback.onOperationResultChanged(result);
+                    }
+                }
+                else {
+                    //Fetch the latest entire items list
+                    getAllItems(new EmptyOpCallback() {
+                        @Override
+                        public void onOperationFinished(Exception exception) {
+                            super.onOperationFinished(exception);
+
+                            //Get from local database
+                            App.getInstance().getDispatcher().dispatch(
+                                    callback,
+                                    new GetSelectedItems(itemIds),
+                                    new DispatchResultOp()
+                            );
+                        }
+                    });
+                }
+            }
+        };
+
+        //Get from local database
+        App.getInstance().getDispatcher().dispatch(
+                twoStepCallback,
+                new GetSelectedItems(itemIds),
                 new DispatchResultOp()
         );
     }
@@ -231,7 +277,7 @@ public class ApiHelper {
         Items itemsEntity = new Items();
         App.getInstance().getDispatcher().dispatch(
                 callback,
-                new HttpGetOp(itemsEntity.getApiPath(), Param.withKeysAndValues("itemListData", "image")),
+                new HttpGetOp(itemsEntity.getApiPath(), Param.withKeysAndValues("itemListData", "image,stacks")),
                 new EntityParseOp(itemsEntity),
                 new DispatchResultOp()
         );

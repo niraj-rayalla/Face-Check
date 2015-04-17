@@ -11,6 +11,6 @@ public class Items extends StaticDataEntity {
 
     @Override
     protected Entity getEntity() {
-        return new Champion();
+        return new Item();
     }
 }

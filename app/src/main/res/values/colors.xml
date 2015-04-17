@@ -5,7 +5,6 @@
     <color name="standard_back">#332420</color>
     <color name="standard_text">#FFF200</color>
 
-
-
+    <color name="item_stack">#FFFFFF</color>
 
 </resources>

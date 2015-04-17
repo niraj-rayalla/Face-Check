@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="item_view_1" type="id" />
+    <item name="item_view_2" type="id" />
+    <item name="item_view_3" type="id" />
+    <item name="item_view_4" type="id" />
+    <item name="item_view_5" type="id" />
+    <item name="item_view_6" type="id" />
+    <item name="item_view_7" type="id" />
+</resources>

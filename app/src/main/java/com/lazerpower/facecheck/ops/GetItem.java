@@ -24,7 +24,7 @@ public class GetItem implements DbOp {
         Item.ItemModel item = null;
 
         Cursor c = db.query("item",
-                new String[]{"id", "name", "item_group", "description", "image"},
+                new String[]{"id", "name", "item_group", "description", "stacks", "image"},
                 "id=?", new String[]{mItemId},
                 null, null,
                 null);
@@ -35,7 +35,8 @@ public class GetItem implements DbOp {
                         c.getString(1),                     //name
                         c.getString(2),                     //group
                         c.getString(3),                     //description
-                        c.getString(4)                      //image
+                        c.getInt(4),                        //stacks
+                        c.getString(5)                      //image
                 );
             }
         } finally {

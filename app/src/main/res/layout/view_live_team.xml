@@ -55,12 +55,23 @@
             android:paddingBottom="@dimen/very_small_spacing">
 
             <TextView
-                android:id="@+id/player_kda"
+                android:id="@+id/player_level_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/very_small_spacing"
+                android:layout_alignParentTop="true"
+                android:textStyle="bold"
+                android:textSize="@dimen/medium_text_size"
+                android:text="Level:"/>
+
+            <TextView
+                android:id="@+id/player_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/player_level_label"
                 android:textSize="@dimen/medium_text_size"
-                android:text="99/99/99"/>
+                android:text="99"/>
 
             <TextView
                 android:id="@+id/player_total_gold"

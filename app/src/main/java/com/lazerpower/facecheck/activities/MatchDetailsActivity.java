@@ -2,20 +2,18 @@ package com.lazerpower.facecheck.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 
 import com.lazerpower.facecheck.App;
 import com.lazerpower.facecheck.Log;
 import com.lazerpower.facecheck.R;
-import com.lazerpower.facecheck.api.ApiHelper;
 import com.lazerpower.facecheck.dispatcher.entity.Match;
 import com.lazerpower.facecheck.dispatcher.ops.DispatchResultOp;
 import com.lazerpower.facecheck.dispatcher.ops.EmptyOpCallback;
 import com.lazerpower.facecheck.dispatcher.ops.EntityParseOp;
 import com.lazerpower.facecheck.dispatcher.ops.HttpGetOp;
-import com.lazerpower.facecheck.dispatcher.ops.OpCallback;
 import com.lazerpower.facecheck.http.ApiPaths;
 import com.lazerpower.facecheck.http.Param;
+import com.lazerpower.facecheck.models.BucketedTimeline;
 import com.lazerpower.facecheck.ops.GetMatch;
 import com.lazerpower.facecheck.utils.TimeUtils;
 import com.lazerpower.facecheck.views.LiveTeamView;
@@ -31,6 +29,8 @@ public class MatchDetailsActivity extends Activity {
     private LiveTeamView mBlueTeamLiveView;
     private MapTimelineView mMapTimelineView;
     private LiveTeamView mRedTeamLiveView;
+
+    private BucketedTimeline mBucketedTimeline;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +77,11 @@ public class MatchDetailsActivity extends Activity {
 
                                             mBlueTeamLiveView.setParticipants(blueParticipants);
                                             mRedTeamLiveView.setParticipants(redParticipants);
+
+                                            mBucketedTimeline = new BucketedTimeline(matchModel);
+
+                                            mBlueTeamLiveView.setCurrentTime(mBucketedTimeline, 360000);
+                                            mRedTeamLiveView.setCurrentTime(mBucketedTimeline, 360000);
                                         }
                                     },
                                     new HttpGetOp(ApiPaths.getMatchPath(matchId),
