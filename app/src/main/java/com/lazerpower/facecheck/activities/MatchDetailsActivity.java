@@ -80,8 +80,9 @@ public class MatchDetailsActivity extends Activity {
 
                                             mBucketedTimeline = new BucketedTimeline(matchModel);
 
-                                            mBlueTeamLiveView.setCurrentTime(mBucketedTimeline, 360000);
-                                            mRedTeamLiveView.setCurrentTime(mBucketedTimeline, 360000);
+                                            mBlueTeamLiveView.setCurrentTime(mBucketedTimeline, 1360000);
+                                            mRedTeamLiveView.setCurrentTime(mBucketedTimeline, 1360000);
+                                            mMapTimelineView.setCurrentTime(1360000);
                                         }
                                     },
                                     new HttpGetOp(ApiPaths.getMatchPath(matchId),
