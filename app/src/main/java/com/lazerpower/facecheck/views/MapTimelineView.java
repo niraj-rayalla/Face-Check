@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -30,6 +31,7 @@ public class MapTimelineView extends FrameLayout {
 
     private ImageView mMapView;
     private DeathsTimelineView mDeathsTimelineView;
+    private CustomSeekBar mSeekBar;
 
     private Match.MatchModel mMatch;
     private Map.MapModel mMap;
@@ -43,6 +45,8 @@ public class MapTimelineView extends FrameLayout {
     public MapTimelineView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        int normalSpacing = context.getResources().getDimensionPixelSize(R.dimen.normal_spacing);
+
         LayoutParams matchParentLayoutParams = new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
@@ -54,6 +58,16 @@ public class MapTimelineView extends FrameLayout {
 
         mDeathsTimelineView = new DeathsTimelineView(context);
         addView(mDeathsTimelineView, matchParentLayoutParams);
+
+        mSeekBar = new CustomSeekBar(context, null);
+        LayoutParams seekBarLayoutParams = new LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        seekBarLayoutParams.leftMargin = normalSpacing;
+        seekBarLayoutParams.rightMargin = normalSpacing;
+        seekBarLayoutParams.gravity = Gravity.BOTTOM;
+        addView(mSeekBar, seekBarLayoutParams);
     }
 
     @Override
@@ -95,6 +109,7 @@ public class MapTimelineView extends FrameLayout {
 
     public void setMatch(Match.MatchModel match) {
         mMatch = match;
+        mSeekBar.setMaxValue(mMatch.getMatchDurationInSeconds()*1000);
 
         ApiHelper.getMap(match.getMapId(), new EmptyOpCallback() {
             @Override
@@ -111,6 +126,7 @@ public class MapTimelineView extends FrameLayout {
 
     public void setCurrentTime(int currentTimestamp) {
         mCurrentTimeStamp = currentTimestamp;
+        mSeekBar.setProgress(mCurrentTimeStamp);
 
         refreshTimelineViews();
     }

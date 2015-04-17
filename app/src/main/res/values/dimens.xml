@@ -15,4 +15,7 @@
     <dimen name="half_focused_player_image">30dp</dimen>
 
     <dimen name="death_indicator_width">12dp</dimen>
+
+    <dimen name="custom_seekbar_handle_size">20dp</dimen>
+    <dimen name="custom_seekbar_background_height">2dp</dimen>
 </resources>
