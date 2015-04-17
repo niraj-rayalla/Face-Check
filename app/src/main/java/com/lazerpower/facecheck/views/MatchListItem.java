@@ -62,6 +62,20 @@ public class MatchListItem extends RelativeLayout {
 
     public void setMatch(Match.MatchModel game){
 
+      //  String mGamelength;
+        int mGameMinutes;
+        int mGameSeconds;
+
+        int BlueMoney = 0;
+        int BlueKill = 0;
+        int BlueDeath = 0;
+        int BlueAssist = 0;
+
+        int RedMoney = 0;
+        int RedKill = 0;
+        int RedDeath = 0;
+        int RedAssist = 0;
+
         ApiHelper.getChampion(game.getMVP().mChampionId, new EmptyOpCallback() {
             @Override
             public void onOperationResultChanged(Object result) {
@@ -73,6 +87,39 @@ public class MatchListItem extends RelativeLayout {
                         .into(mMVP);
             }
         });
+
+        mGameMinutes = game.getMatchDurationInSeconds()/60;
+        mGameSeconds = game.getMatchDurationInSeconds()%60;
+        mTime.setText(mGameMinutes + ":" + mGameSeconds);
+
+        mBlueTower.setText(game.getTeams()[0].mTowerKills);
+        mBlueDragon.setText(game.getTeams()[0].mDragonKills);
+        mBlueBarron.setText(game.getTeams()[0].mBaronKills);
+
+
+        //Gold for the teams
+        for(int i = 0; i < game.getParticipants().length; i++)
+        {
+            if(game.getParticipants()[i].mTeamId == 100)
+            {
+                BlueMoney = BlueMoney + game.getParticipants()[i].mStats.mGoldEarn;
+                BlueKill = BlueKill + game.getParticipants()[i].mStats.mKills;
+                BlueDeath = BlueDeath + game.getParticipants()[i].mStats.mDeaths;
+                BlueAssist = BlueAssist + game.getParticipants()[i].mStats.mAssists;
+            }
+            else{
+                RedMoney = RedMoney + game.getParticipants()[i].mStats.mGoldEarn;
+                RedKill = RedKill + game.getParticipants()[i].mStats.mKills;
+                RedDeath = RedDeath + game.getParticipants()[i].mStats.mDeaths;
+                RedAssist = RedAssist + game.getParticipants()[i].mStats.mAssists;
+            }
+        }
+
+        mBlueKDA.setText(BlueKill+"/"+BlueDeath+"/"+BlueAssist);
+        mBlueGold.setText(BlueMoney+"g");
+
+        mRedKDA.setText(RedKill+"/"+RedDeath+"/"+RedAssist);
+        mRedGold.setText(RedMoney+"g");
 
     }
 }
