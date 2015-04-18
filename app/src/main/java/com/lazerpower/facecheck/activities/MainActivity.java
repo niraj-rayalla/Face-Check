@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lazerpower.facecheck.App;
+import com.lazerpower.facecheck.Log;
 import com.lazerpower.facecheck.R;
 import com.lazerpower.facecheck.api.ApiHelper;
 import com.lazerpower.facecheck.dispatcher.entity.Champions;
@@ -19,8 +20,14 @@ import com.lazerpower.facecheck.dispatcher.entity.Match;
 import com.lazerpower.facecheck.dispatcher.entity.SummonerSpells;
 import com.lazerpower.facecheck.dispatcher.ops.DispatchResultOp;
 import com.lazerpower.facecheck.dispatcher.ops.EmptyOpCallback;
+import com.lazerpower.facecheck.dispatcher.ops.HttpGetOp;
+import com.lazerpower.facecheck.http.ApiPaths;
+import com.lazerpower.facecheck.http.Param;
 import com.lazerpower.facecheck.ops.GetMatches;
+import com.lazerpower.facecheck.utils.TimeUtils;
 import com.lazerpower.facecheck.views.MatchListItem;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -109,6 +116,20 @@ public class MainActivity extends Activity {
                 new GetMatches(),
                 new DispatchResultOp()
         );
+
+        /*App.getInstance().getDispatcher().dispatch(
+                new EmptyOpCallback() {
+                    @Override
+                    public void onOperationResultChanged(Object result) {
+                        JSONArray gameIds = (JSONArray)result;
+
+                        mGamesList.setAdapter(new MatchesAdapter(gameIds));
+                    }
+                },
+                new HttpGetOp(ApiPaths.getApiChallengePath(),
+                        Param.withKeysAndValues("beginDate", Long.toString(TimeUtils.getLastFullFiveMinEpoch()))),
+                new DispatchResultOp()
+        );*/
     }
 
     private void onAbout() {
