@@ -87,7 +87,8 @@
             android:id="@+id/blue_win"
             android:layout_width="0dp"
             android:layout_height="65dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:src="@drawable/trophy"/>
     </LinearLayout>
 
     <!-- Red Team Stats-->
@@ -161,7 +162,8 @@
             android:id="@+id/red_win"
             android:layout_width="0dp"
             android:layout_height="65dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:src="@drawable/trophy"/>
     </LinearLayout>
 
 </merge>

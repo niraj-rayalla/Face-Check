@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -88,6 +89,17 @@ public class MatchListItem extends RelativeLayout {
             }
         });
 
+        if(game.getTeams()[0].mWinner)
+        {
+            mBlueWin.setVisibility(View.VISIBLE);
+            mRedWin.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            mRedWin.setVisibility(View.VISIBLE);
+            mBlueWin.setVisibility(View.INVISIBLE);
+        }
+
         mGameMinutes = game.getMatchDurationInSeconds()/60;
         mGameSeconds = game.getMatchDurationInSeconds()%60;
         mTime.setText(mGameMinutes + ":" + mGameSeconds);
@@ -95,6 +107,10 @@ public class MatchListItem extends RelativeLayout {
         mBlueTower.setText(game.getTeams()[0].mTowerKills);
         mBlueDragon.setText(game.getTeams()[0].mDragonKills);
         mBlueBarron.setText(game.getTeams()[0].mBaronKills);
+
+        mRedTower.setText(game.getTeams()[1].mTowerKills);
+        mRedDragon.setText(game.getTeams()[1].mDragonKills);
+        mRedBarron.setText(game.getTeams()[1].mBaronKills);
 
 
         //Gold for the teams
