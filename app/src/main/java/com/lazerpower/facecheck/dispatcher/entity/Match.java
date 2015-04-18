@@ -44,6 +44,7 @@ public class Match extends Entity {
     public static class MatchModel {
         private JSONObject mJson;
 
+        private String mId;
         private Date mCreationTime;
         private int mMatchDurationInSeconds;
         private String mMapId;
@@ -55,6 +56,7 @@ public class Match extends Entity {
             mJson = json;
 
             try {
+                mId = json.getString("matchId");
                 mCreationTime = new Date(json.getLong("matchCreation"));
                 mMatchDurationInSeconds = json.getInt("matchDuration");
                 mMapId = json.getString("mapId");
@@ -79,6 +81,10 @@ public class Match extends Entity {
             catch (Exception e) {
                 Log.d("Problem creating Match model", e);
             }
+        }
+
+        public String getId() {
+            return mId;
         }
 
         public Date getCreationTime() {
