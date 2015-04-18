@@ -16,19 +16,22 @@ import com.lazerpower.facecheck.http.Param;
 import com.lazerpower.facecheck.models.BucketedTimeline;
 import com.lazerpower.facecheck.ops.GetMatch;
 import com.lazerpower.facecheck.utils.TimeUtils;
+import com.lazerpower.facecheck.views.EndGameTeamStatsView;
 import com.lazerpower.facecheck.views.LiveTeamView;
 import com.lazerpower.facecheck.views.MapTimelineView;
 
 import org.json.JSONArray;
 
 /**
- * Created by Niraj on 4/14/2015.
+ * Created by Niraj what on 4/14/2015.
  */
 public class MatchDetailsActivity extends Activity {
 
     private LiveTeamView mBlueTeamLiveView;
     private MapTimelineView mMapTimelineView;
     private LiveTeamView mRedTeamLiveView;
+    private EndGameTeamStatsView mBlueFinalStats;
+    private EndGameTeamStatsView mRedFinalStats;
 
     private BucketedTimeline mBucketedTimeline;
 
@@ -40,6 +43,8 @@ public class MatchDetailsActivity extends Activity {
         mBlueTeamLiveView = (LiveTeamView)findViewById(R.id.blue_team_live_view);
         mMapTimelineView = (MapTimelineView)findViewById(R.id.map_timeline_view);
         mRedTeamLiveView = (LiveTeamView)findViewById(R.id.red_team_live_view);
+        mBlueFinalStats = (EndGameTeamStatsView)findViewById(R.id.blue_team_end_stats);
+        mRedFinalStats = (EndGameTeamStatsView)findViewById(R.id.red_team_end_stats);
 
         App.getInstance().getDispatcher().dispatch(
                 new EmptyOpCallback() {
@@ -57,6 +62,8 @@ public class MatchDetailsActivity extends Activity {
 
                                             Match.MatchModel matchModel = (Match.MatchModel) result;
                                             mMapTimelineView.setMatch(matchModel);
+                                            mBlueFinalStats.setMatch(matchModel, matchModel.getTeams()[0]);
+                                            mRedFinalStats.setMatch(matchModel, matchModel.getTeams()[1]);
 
                                             int blueTeamId = matchModel.getTeams()[0].mTeamId;
                                             int blueIndex = 0;

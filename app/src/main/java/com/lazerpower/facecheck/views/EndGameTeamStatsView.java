@@ -47,7 +47,7 @@ public class EndGameTeamStatsView extends LinearLayout {
 
 ////////////////////////////
 
-    public void setMatch(Match.MatchModel game, Match.MatchModel.Team team, int teamIndex){
+    public void setMatch(Match.MatchModel game, Match.MatchModel.Team team){
 
 
 
@@ -81,9 +81,9 @@ public class EndGameTeamStatsView extends LinearLayout {
 
 
 
-        mTower.setText(game.getTeams()[teamIndex].mTowerKills);
-        mDragon.setText(game.getTeams()[teamIndex].mDragonKills);
-        mBarron.setText(game.getTeams()[teamIndex].mBaronKills);
+        mTower.setText(Integer.toString(team.mTowerKills));
+        mDragon.setText(Integer.toString(team.mDragonKills));
+        mBarron.setText(Integer.toString(team.mBaronKills));
 
 
         //Gold for the teams
