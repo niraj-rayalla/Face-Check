@@ -3,6 +3,10 @@ package com.lazerpower.facecheck.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.lazerpower.facecheck.R;
 import com.lazerpower.facecheck.api.ApiHelper;
@@ -17,11 +21,29 @@ import com.lazerpower.facecheck.dispatcher.ops.EmptyOpCallback;
  */
 public class MainActivity extends Activity {
 
+    private TextView mAboutButton;
+    private RecyclerView mGamesList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        mAboutButton = (TextView)findViewById(R.id.about_button);
+        mGamesList = (RecyclerView)findViewById(R.id.games_list);
+
+        mGamesList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        mAboutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onAbout();
+            }
+        });
+
+        //
+        // Get static data
+        //
         boolean hasChampionsData = (new Champions()).hasStaticDataStored();
         boolean hasItemsData = (new Items()).hasStaticDataStored();
         boolean hasSummonerSpellsData = (new SummonerSpells()).hasStaticDataStored();
@@ -64,11 +86,14 @@ public class MainActivity extends Activity {
         else {
             doAfterStaticDataCheck();
         }
-
-        startActivity(new Intent(this, MatchDetailsActivity.class));
     }
 
     private void doAfterStaticDataCheck() {
 
+    }
+
+    private void onAbout() {
+        Intent aboutIntent = new Intent(this, AboutScreen.class);
+        startActivity(aboutIntent);
     }
 }

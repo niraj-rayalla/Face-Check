@@ -4,6 +4,7 @@
     <color name="red_team_color">#880015</color>
     <color name="standard_back">#332420</color>
     <color name="standard_text">#FFF200</color>
+    <color name="list_background">#444444</color>
 
     <color name="item_stack">#FFFFFF</color>
 

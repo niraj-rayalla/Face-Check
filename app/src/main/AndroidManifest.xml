@@ -22,8 +22,10 @@
             </intent-filter>
         </activity>
 
-
         <activity android:name=".activities.MatchDetailsActivity"
+            android:screenOrientation="sensorPortrait" />
+
+        <activity android:name=".activities.AboutScreen"
             android:screenOrientation="sensorPortrait" />
 
     </application>
