@@ -104,9 +104,9 @@ public class MatchListItem extends RelativeLayout {
         mGameSeconds = game.getMatchDurationInSeconds()%60;
         mTime.setText(mGameMinutes + ":" + mGameSeconds);
 
-        mBlueTower.setText(game.getTeams()[0].mTowerKills);
-        mBlueDragon.setText(game.getTeams()[0].mDragonKills);
-        mBlueBarron.setText(game.getTeams()[0].mBaronKills);
+        mBlueTower.setText(Integer.toString(game.getTeams()[0].mTowerKills));
+        mBlueDragon.setText(Integer.toString(game.getTeams()[0].mDragonKills));
+        mBlueBarron.setText(Integer.toString(game.getTeams()[0].mBaronKills));
 
         mRedTower.setText(game.getTeams()[1].mTowerKills);
         mRedDragon.setText(game.getTeams()[1].mDragonKills);
