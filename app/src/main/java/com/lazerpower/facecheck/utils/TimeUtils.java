@@ -53,4 +53,20 @@ public class TimeUtils {
         //like 0, would not accomplish any more than this.
         return (new Date().getTime()/1000) - 300;
     }
+
+    public static String getTimeElapsedString(int numMilliseconds) {
+        int timeRemaining = numMilliseconds;
+
+        int numHours = timeRemaining/3600000;
+        timeRemaining -= numHours*3600000;
+
+        int numMins = timeRemaining/60000;
+        timeRemaining -= numMins*60000;
+
+        int numSeconds = timeRemaining/1000;
+
+        return (numHours > 0 ? String.format("%02d:", numHours) : "")
+                + String.format("%02d:", numMins)
+                + String.format("%02d", numSeconds);
+    }
 }

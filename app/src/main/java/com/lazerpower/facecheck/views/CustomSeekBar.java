@@ -78,6 +78,10 @@ public class CustomSeekBar extends FrameLayout implements View.OnTouchListener {
     }
 
     public void setProgress(float progress) {
+        setProgress(progress, true);
+    }
+
+    public void setProgress(float progress, boolean canCallListener) {
         if (progress > mMaxProgress) {
             progress = mMaxProgress;
         }
@@ -85,7 +89,7 @@ public class CustomSeekBar extends FrameLayout implements View.OnTouchListener {
             progress = 0.0f;
         }
 
-        if (mCurrentProgress != progress) {
+        if (mCurrentProgress != progress && canCallListener) {
             mCurrentProgress = progress;
             if (mListener != null) {
                 mListener.OnSeekChanged(mCurrentProgress);

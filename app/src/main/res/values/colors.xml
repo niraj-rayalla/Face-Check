@@ -7,4 +7,6 @@
 
     <color name="item_stack">#FFFFFF</color>
 
+    <color name="translucent_black">#AA000000</color>
+
 </resources>
