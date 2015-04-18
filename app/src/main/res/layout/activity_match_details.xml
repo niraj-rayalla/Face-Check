@@ -26,6 +26,30 @@
             android:layout_height="118dp"
             android:background="@color/red_team_color" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.lazerpower.facecheck.views.EndGameTeamStatsView
+                android:id="@+id/blue_team_end_stats"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:background="@color/blue_team_color"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/normal_spacing"/>
+
+            <com.lazerpower.facecheck.views.EndGameTeamStatsView
+                android:id="@+id/red_team_end_stats"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:background="@color/red_team_color"
+                android:layout_weight="1"
+                android:paddingRight="@dimen/normal_spacing"/>
+
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
