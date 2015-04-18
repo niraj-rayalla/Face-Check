@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
         }
         else {
             doAfterStaticDataCheck();
-        }
+        }startActivity(new Intent(this, MatchDetailsActivity.class));
     }
 
     private void doAfterStaticDataCheck() {
@@ -96,4 +96,6 @@ public class MainActivity extends Activity {
         Intent aboutIntent = new Intent(this, AboutScreen.class);
         startActivity(aboutIntent);
     }
+
+
 }

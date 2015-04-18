@@ -5,14 +5,23 @@
         android:id="@+id/team_winner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="W or L"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/text_mvp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="MVP"
         android:gravity="center_horizontal"/>
 
     <ImageView
         android:id="@+id/team_mvp"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:id="@+id/team_kda"
