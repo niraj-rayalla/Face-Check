@@ -100,7 +100,7 @@ public class MatchListItem extends RelativeLayout {
         //Gold for the teams
         for(int i = 0; i < game.getParticipants().length; i++)
         {
-            if(game.getParticipants()[i].mTeamId == 100)
+            if(game.getParticipants()[i].mTeamId == game.getTeams()[0].mTeamId)
             {
                 BlueMoney = BlueMoney + game.getParticipants()[i].mStats.mGoldEarn;
                 BlueKill = BlueKill + game.getParticipants()[i].mStats.mKills;

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.lazerpower.facecheck.App;
 import com.lazerpower.facecheck.R;
@@ -22,7 +23,9 @@ import com.lazerpower.facecheck.dispatcher.entity.Map;
 import com.lazerpower.facecheck.dispatcher.entity.Match;
 import com.lazerpower.facecheck.dispatcher.ops.EmptyOpCallback;
 import com.lazerpower.facecheck.models.BucketedTimeline;
+import com.lazerpower.facecheck.models.MatchTimeKeeper;
 import com.lazerpower.facecheck.utils.PicassoOkHttp;
+import com.lazerpower.facecheck.utils.TimeUtils;
 
 /**
  * Created by Niraj on 4/11/2015.
@@ -32,6 +35,7 @@ public class MapTimelineView extends FrameLayout {
     private ImageView mMapView;
     private DeathsTimelineView mDeathsTimelineView;
     private CustomSeekBar mSeekBar;
+    private TextView mCurrentTimeView;
 
     private Match.MatchModel mMatch;
     private Map.MapModel mMap;
@@ -42,10 +46,13 @@ public class MapTimelineView extends FrameLayout {
     private float mDeathIndicatorHalfWidth;
     private float mDeathIndicatorHalfHeight;
 
+    private MatchTimeKeeper mTimeKeeper;
+
     public MapTimelineView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         int normalSpacing = context.getResources().getDimensionPixelSize(R.dimen.normal_spacing);
+        int verySmallSpacing = context.getResources().getDimensionPixelSize(R.dimen.very_small_spacing);
 
         LayoutParams matchParentLayoutParams = new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -68,6 +75,39 @@ public class MapTimelineView extends FrameLayout {
         seekBarLayoutParams.rightMargin = normalSpacing;
         seekBarLayoutParams.gravity = Gravity.BOTTOM;
         addView(mSeekBar, seekBarLayoutParams);
+
+        //Current time view
+        mCurrentTimeView = new TextView(context);
+        mCurrentTimeView.setPadding(verySmallSpacing, 0, verySmallSpacing, 0);
+        mCurrentTimeView.setBackgroundColor(context.getResources().getColor(R.color.translucent_black));
+        LayoutParams timeViewLayoutParams = new LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        timeViewLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+        addView(mCurrentTimeView, timeViewLayoutParams);
+        mCurrentTimeView.setText("00:00");
+
+        mSeekBar.setListener(new CustomSeekBar.OnCustomSeekBarSeekChanged() {
+            @Override
+            public void OnSeekDown() {
+                //Do nothing
+            }
+
+            @Override
+            public void OnSeekChanged(float progress) {
+                if (mTimeKeeper != null) {
+                    mTimeKeeper.setCurrentTime((int)progress);
+                }
+            }
+
+            @Override
+            public void OnSeekUp() {
+                if (mTimeKeeper != null) {
+                    mTimeKeeper.startTiming();
+                }
+            }
+        });
     }
 
     @Override
@@ -124,9 +164,15 @@ public class MapTimelineView extends FrameLayout {
         });
     }
 
+    public void setTimeKeeper(MatchTimeKeeper timeKeeper) {
+        mTimeKeeper = timeKeeper;
+    }
+
     public void setCurrentTime(int currentTimestamp) {
         mCurrentTimeStamp = currentTimestamp;
         mSeekBar.setProgress(mCurrentTimeStamp);
+
+        mCurrentTimeView.setText(TimeUtils.getTimeElapsedString(mCurrentTimeStamp));
 
         refreshTimelineViews();
     }

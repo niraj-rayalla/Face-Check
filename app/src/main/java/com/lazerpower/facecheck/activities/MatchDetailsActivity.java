@@ -2,6 +2,7 @@ package com.lazerpower.facecheck.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 
 import com.lazerpower.facecheck.App;
 import com.lazerpower.facecheck.Log;
@@ -14,6 +15,7 @@ import com.lazerpower.facecheck.dispatcher.ops.HttpGetOp;
 import com.lazerpower.facecheck.http.ApiPaths;
 import com.lazerpower.facecheck.http.Param;
 import com.lazerpower.facecheck.models.BucketedTimeline;
+import com.lazerpower.facecheck.models.MatchTimeKeeper;
 import com.lazerpower.facecheck.ops.GetMatch;
 import com.lazerpower.facecheck.utils.TimeUtils;
 import com.lazerpower.facecheck.views.EndGameTeamStatsView;
@@ -34,6 +36,7 @@ public class MatchDetailsActivity extends Activity {
     private EndGameTeamStatsView mRedFinalStats;
 
     private BucketedTimeline mBucketedTimeline;
+    private MatchTimeKeeper mMatchTimeKeeper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,10 +89,9 @@ public class MatchDetailsActivity extends Activity {
                                             mRedTeamLiveView.setParticipants(redParticipants);
 
                                             mBucketedTimeline = new BucketedTimeline(matchModel);
+                                            mMatchTimeKeeper = new MatchDetailsTimeKeeper(matchModel, mBucketedTimeline);
 
-                                            mBlueTeamLiveView.setCurrentTime(mBucketedTimeline, 1360000);
-                                            mRedTeamLiveView.setCurrentTime(mBucketedTimeline, 1360000);
-                                            mMapTimelineView.setCurrentTime(1360000);
+                                            mMapTimelineView.setTimeKeeper(mMatchTimeKeeper);
                                         }
                                     },
                                     new HttpGetOp(ApiPaths.getMatchPath(matchId),
@@ -108,5 +110,50 @@ public class MatchDetailsActivity extends Activity {
                         Param.withKeysAndValues("beginDate", Long.toString(TimeUtils.getLastFullFiveMinEpoch()))),
                 new DispatchResultOp()
         );
+    }
+
+    public class MatchDetailsTimeKeeper extends MatchTimeKeeper {
+        private static final int TIMER_INTERVAL_DURATION = 250;
+
+        private CountDownTimer mCountDownTimer;
+
+        public MatchDetailsTimeKeeper(Match.MatchModel matchModel, BucketedTimeline bucketedTimeline) {
+            super(matchModel, bucketedTimeline);
+            startTiming();
+        }
+
+        @Override
+        public void startTiming() {
+            stopTiming();
+
+            long timeRemainingTillEnd = mMatchModel.getMatchDurationInSeconds()*1000 - getCurrentTime();
+            mCountDownTimer = new CountDownTimer(timeRemainingTillEnd, TIMER_INTERVAL_DURATION) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    setCurrentTime(getCurrentTime() + TIMER_INTERVAL_DURATION);
+                    refreshTimedViews();
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            }.start();
+
+            refreshTimedViews();
+        }
+
+        @Override
+        public void stopTiming() {
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
+            }
+        }
+
+        private void refreshTimedViews() {
+            mBlueTeamLiveView.setCurrentTime(mBucketedTimeline, getCurrentTime());
+            mRedTeamLiveView.setCurrentTime(mBucketedTimeline, getCurrentTime());
+            mMapTimelineView.setCurrentTime(getCurrentTime());
+        }
     }
 }
